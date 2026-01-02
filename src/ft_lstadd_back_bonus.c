@@ -12,21 +12,21 @@
 
 #include "libft.h"
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+void	ft_lstadd_back(t_list **lst, t_list *new_node)
 {
 	t_list	*node;
 
-	if (!lst || !new)
+	if (!lst || !new_node)
 		return ;
 	if (!*lst)
 	{
-		*lst = new;
+		*lst = new_node;
 		return ;
 	}
 	node = *lst;
 	while (node->next != NULL)
 		node = node->next;
-	node->next = new;
+	node->next = new_node;
 }
 
 // typedef struct s_list

@@ -26,48 +26,6 @@ char *join_args(int ac, char **av)
     return (raw_str);
 }
 
-
-
-
-
-// Helper to add node to back of list
-void stack_add_back(t_stack **stack, t_stack *new_node)
-{
-    t_stack *temp;
-    // int i; // You don't actually need a counter if the previous node has an index
-
-    if (!stack || !new_node)
-        return;
-    if (!*stack)
-    {
-        *stack = new_node;
-        new_node->index = 0;
-        return;
-    }
-    temp = *stack;
-    while (temp->next)
-        temp = temp->next;
-    
-    temp->next = new_node;
-    
-    new_node->index = temp->index + 1; 
-}
-
-// Helper to create a new node
-t_stack *stack_new(int content)
-{
-    t_stack *node;
-    
-    node = malloc(sizeof(t_stack));
-    if (!node)
-        return (NULL);
-    node->value = content;
-    node->index = -1;
-    node->next = NULL;
-    return (node);
-}
-
-// Main parsing function
 t_stack *parse_arguments(int ac, char **av)
 {
     t_stack *stack_a = NULL;
@@ -88,7 +46,7 @@ t_stack *parse_arguments(int ac, char **av)
     while (split_args[i])
     {
         if (check_if_number(split_args[i]))
-            return(error_exit(stack_a, split_args));
+            return(error_exit(&stack_a, split_args));
         
         num = ft_atol(split_args[i]); // Use long to check overflows
         
