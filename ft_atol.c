@@ -1,3 +1,5 @@
+#include "push_swap.h"
+
 long ft_atol(char *str)
 {
     long res;
@@ -8,7 +10,7 @@ long ft_atol(char *str)
     sign = 1;
     res = 0;
 
-    while (str[i] && (str[i] == '+' || str[i] == '-'))
+    if (str[i] && (str[i] == '+' || str[i] == '-'))
     {
         if (str[i] == '-')
             sign = -1;

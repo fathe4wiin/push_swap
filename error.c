@@ -1,21 +1,16 @@
 #include "push_swap.h"
 
-
-void arr_clear(char **str)
+void error_exit(t_stack **stack, char **split_args)
 {
-    int i;
+    // 1. Clear the stack nodes
+    if (stack && *stack)
+        stack_clear(stack);
 
-    i = 0;
-    while (str[i])
-    {
-        free(str[i]);
-        i++;
-    }
-}
+    // 2. Clear the split array (safely)
+    if (split_args)
+        free_split(split_args);
 
-void error_exit(t_stack **stack_a, char **split_args)
-{
-    stack_clear(stack_a);
-    arr_clear(split_args);
-
+    // 3. Print error and exit
+    write(2, "Error\n", 6);
+    exit(1);
 }

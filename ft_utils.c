@@ -37,11 +37,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (res);
 }
 
-// int main(void)
-// {
-// 	char *res = ft_strjoin(NULL, "simple stuff");
-// }
-
 char	*ft_strdup(const char *src)
 {
 	char	*dest;
@@ -55,4 +50,19 @@ char	*ft_strdup(const char *src)
 		dest[i] = src[i];
 	dest[i] = '\0';
 	return (dest);
+}
+
+void free_split(char **split)
+{
+    int i;
+
+    if (!split)
+        return;
+    i = 0;
+    while (split[i])
+    {
+        free(split[i]);
+        i++;
+    }
+    free(split);
 }

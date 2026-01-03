@@ -34,33 +34,34 @@ t_stack *parse_arguments(int ac, char **av)
     long    num;
     int     i;
 
-    // 1. Join all args
     raw_str = join_args(ac, av);
-    
-    // 2. Split by space
-    split_args = ft_split(raw_str, " ");
-    free(raw_str); // Don't need the big string anymore
-
-    // 3. Convert and Add to List
+    split_args = ft_split(raw_str, " \t");
+    free(raw_str);
+    if (!split_args)
+        return (NULL);
     i = 0;
     while (split_args[i])
     {
         if (check_if_number(split_args[i]))
         {
-            error_exit(&stack_a, split_args);
+            error_exit(&stack_a, split_args); // Passes the full array to clean up
             return (NULL);
         }
         
-        num = ft_atol(split_args[i]); // Use long to check overflows
+        num = ft_atol(split_args[i]);
         
-        // TODO: Check INT_MAX / INT_MIN and duplicates
-        // if (num > INT_MAX || num < INT_MIN || is_duplicate(stack_a, num))
-        //     error_exit();
+        // Uncomment your validation checks!
+        if (num > 2147483647 || num < -2147483648 || is_duplicate(stack_a, num))
+        {
+            error_exit(&stack_a, split_args);
+            return (NULL);
+        }
 
         stack_add_back(&stack_a, stack_new((int)num));
-        free(split_args[i]); // Free string after use
+        // REMOVED: free(split_args[i]);  <-- Don't free here!
         i++;
     }
-    free(split_args); // Free the array pointer
+    
+    free_split(split_args); // Free everything at once on success
     return (stack_a);
 }

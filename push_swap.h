@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <unistd.h>
+#include "limits.h"
 
 typedef struct s_stack
 {
@@ -28,6 +29,8 @@ char	*ft_strdup(const char *src);
 char	*ft_strjoin(char const *s1, char const *s2);
 
 
+
+void free_split(char **split);
 
 void error_exit(t_stack **stack_a, char **split_args);
 
