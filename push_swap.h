@@ -3,7 +3,6 @@
 
 #include <stdlib.h>
 #include <unistd.h>
-#include "src/libft.h"
 
 typedef struct s_stack
 {
@@ -24,9 +23,13 @@ void    stack_clear(t_stack **stack);
 long ft_atol(char *str);
 int check_if_number(char *str);
 int is_duplicate(t_stack *stack_a, long num);
+char	**ft_split(char *str, char *charset);
+char	*ft_strdup(const char *src);
+char	*ft_strjoin(char const *s1, char const *s2);
 
 
-int error_exit(t_stack **stack_a, char **split_args);
+
+void error_exit(t_stack **stack_a, char **split_args);
 
 
 

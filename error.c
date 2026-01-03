@@ -1,11 +1,21 @@
 #include "push_swap.h"
 
 
-
-
-int error_exit(t_stack **stack_a, char **split_args)
+void arr_clear(char **str)
 {
-    ft_lstclear(stack_a);
+    int i;
 
+    i = 0;
+    while (str[i])
+    {
+        free(str[i]);
+        i++;
+    }
+}
+
+void error_exit(t_stack **stack_a, char **split_args)
+{
+    stack_clear(stack_a);
+    arr_clear(split_args);
 
 }

@@ -38,7 +38,7 @@ t_stack *parse_arguments(int ac, char **av)
     raw_str = join_args(ac, av);
     
     // 2. Split by space
-    split_args = ft_split(raw_str, ' ');
+    split_args = ft_split(raw_str, " ");
     free(raw_str); // Don't need the big string anymore
 
     // 3. Convert and Add to List
@@ -46,7 +46,10 @@ t_stack *parse_arguments(int ac, char **av)
     while (split_args[i])
     {
         if (check_if_number(split_args[i]))
-            return(error_exit(&stack_a, split_args));
+        {
+            error_exit(&stack_a, split_args);
+            return (NULL);
+        }
         
         num = ft_atol(split_args[i]); // Use long to check overflows
         
