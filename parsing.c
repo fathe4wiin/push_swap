@@ -1,5 +1,24 @@
 #include "push_swap.h"
 
+static int is_valid_arg(char *str)
+{
+    int i;
+    int has_content;
+
+    i = 0;
+    has_content = 0;
+    if (!str || !str[0])
+        return (0);
+    while (str[i])
+    {
+        if (str[i] == '\t')
+            return (0);
+        if (str[i] != ' ')
+            has_content = 1;
+        i++;
+    }
+    return (has_content);
+}
 
 
 char *join_args(int ac, char **av)
@@ -14,6 +33,11 @@ char *join_args(int ac, char **av)
         return (NULL);
     while (i < ac)
     {
+        if (!is_valid_arg(av[i]))
+        {
+            error_exit(NULL, NULL);
+            return (NULL);
+        }
         temp = ft_strjoin(raw_str, av[i]);
         free(raw_str);
         raw_str = temp;
@@ -50,15 +74,13 @@ t_stack *parse_arguments(int ac, char **av)
         
         num = ft_atol(split_args[i]);
         
-        // Uncomment your validation checks!
-        if (num > 2147483647 || num < -2147483648 || is_duplicate(stack_a, num))
+        if (num > INT_MAX || num < INT_MIN || is_duplicate(stack_a, num))
         {
             error_exit(&stack_a, split_args);
             return (NULL);
         }
 
         stack_add_back(&stack_a, stack_new((int)num));
-        // REMOVED: free(split_args[i]);  <-- Don't free here!
         i++;
     }
     

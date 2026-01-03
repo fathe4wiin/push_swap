@@ -34,7 +34,7 @@ void free_split(char **split);
 
 void error_exit(t_stack **stack_a, char **split_args);
 
-
+t_stack *parse_arguments(int ac, char **av);
 
 
 #endif

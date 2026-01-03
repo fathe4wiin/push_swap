@@ -1,7 +1,7 @@
 #include "push_swap.h"
 
 
-t_stack *stack_new_node(int content)
+t_stack *stack_new(int content)
 {
     t_stack *node;
     
