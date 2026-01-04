@@ -13,8 +13,5 @@ int main(int ac, char **av)
     if (ac < 2)
         return 0;    
     stack_a = parse_arguments(ac, av);
-    while (1)
-    {
-        int a = 1;
-    }
+    
 }

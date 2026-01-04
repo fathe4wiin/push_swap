@@ -83,7 +83,7 @@ t_stack *parse_arguments(int ac, char **av)
         stack_add_back(&stack_a, stack_new((int)num));
         i++;
     }
-    
-    free_split(split_args); // Free everything at once on success
+    assign_index(&stack_a);
+    free_split(split_args);
     return (stack_a);
 }
