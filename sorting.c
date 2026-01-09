@@ -43,7 +43,7 @@ void phase_two(t_stack **stack_a, t_stack **stack_b, t_vars *vars)
     {
         max_index = find_max_index(*stack_b);
         if (vars->down > 0 && 
-            stack_last(*stack_a)->index == (*stack_a)->index + 1)
+            stack_last(*stack_a)->index == (*stack_a)->index - 1)
         {
              rra(stack_a);
              vars->down--;
@@ -52,7 +52,7 @@ void phase_two(t_stack **stack_a, t_stack **stack_b, t_vars *vars)
         {
             pa(stack_a, stack_b);
             if (vars->down > 0 && 
-                stack_last(*stack_a)->index == (*stack_a)->index + 1)
+                stack_last(*stack_a)->index == (*stack_a)->index - 1)
             {
                rra(stack_a);
                vars->down--;
