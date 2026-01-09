@@ -1,17 +1,17 @@
 #include "push_swap.h"
 
-
-
-
-
-
 int main(int ac, char **av)
 {
     t_stack *stack_a;
 
-    char *raw_str;
     if (ac < 2)
-        return 0;    
+        return (0);    
     stack_a = parse_arguments(ac, av);
-    
+    if (!stack_a)
+        return (0);
+    assign_index(&stack_a);
+    if (stack_size(stack_a) > 1) 
+        stack_a = sort(&stack_a);
+    stack_clear(&stack_a);
+    return (0);
 }
