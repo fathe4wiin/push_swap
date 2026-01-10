@@ -2,31 +2,48 @@
 
 int assign_n(int size)
 {
-    if (size <= 10)
+    if (size <= 50)
         return 5;
     else if (size <= 150)
-        return 8;
+        return 10;
     else
         return 18;
 }
 
 void phase_one(t_stack **stack_a, t_stack **stack_b, t_vars *vars)
 {
-    while (*stack_a)
+    int pushed_above;
+    int pushed_below;
+
+    pushed_above = 0;
+    pushed_below = 0;
+    while (stack_size(*stack_a) > 3 && !is_sorted(*stack_a))
     {
-        if ((*stack_a)->index >= vars->start && (*stack_a)->index <= vars->end)
+        if ((*stack_a)->index >= vars->size - 3)
+            ra(stack_a);
+        else if ((*stack_a)->index >= vars->start && (*stack_a)->index <= vars->end)
         {
             pb(stack_a, stack_b);
-            if ((*stack_b)->index < vars->middle)
+            if ((*stack_b)->index <= vars->middle)
+            {
                 rb(stack_b);
-            if (stack_size(*stack_b) > (vars->end - vars->start))
+                pushed_below++;
+            }
+            else
+                pushed_above++;
+            if (pushed_below >= vars->offset)
             {
                 vars->start -= vars->offset;
-                vars->end += vars->offset;
                 if (vars->start < 0)
                     vars->start = 0;
+                pushed_below = 0;
+            }
+            if (pushed_above >= vars->offset)
+            {
+                vars->end += vars->offset;
                 if (vars->end >= vars->size)
                     vars->end = vars->size - 1;
+                pushed_above = 0;
             }
         }
         else
@@ -42,20 +59,18 @@ void phase_two(t_stack **stack_a, t_stack **stack_b, t_vars *vars)
     while (*stack_b || vars->down > 0)
     {
         max_index = find_max_index(*stack_b);
-        if (vars->down > 0 && 
-            stack_last(*stack_a)->index == (*stack_a)->index - 1)
+        if (vars->down > 0 && stack_last(*stack_a)->index == (*stack_a)->index - 1)
         {
-             rra(stack_a);
-             vars->down--;
+            rra(stack_a);
+            vars->down--;
         }
         else if (*stack_b && (*stack_b)->index == max_index)
         {
             pa(stack_a, stack_b);
-            if (vars->down > 0 && 
-                stack_last(*stack_a)->index == (*stack_a)->index - 1)
+            if (vars->down > 0 && stack_last(*stack_a)->index == (*stack_a)->index - 1)
             {
-               rra(stack_a);
-               vars->down--;
+                rra(stack_a);
+                vars->down--;
             }
         }
         else if (*stack_b && (*stack_b)->index == max_index - 1)
@@ -92,9 +107,14 @@ t_stack *sort(t_stack **stack_a)
     vars->end = vars->middle + vars->offset;
     vars->down = 0;
 
-    phase_one(stack_a, &stack_b, vars);
-    
-    phase_two(stack_a, &stack_b, vars);
+    if (vars->size <= 5)
+        sort_small(stack_a, &stack_b);
+    else
+    {
+        phase_one(stack_a, &stack_b, vars);
+        sort_three(stack_a);
+        phase_two(stack_a, &stack_b, vars);
+    }
     
     return (*stack_a);
 }

@@ -38,7 +38,9 @@ int is_duplicate(t_stack *stack_a, long num);
 char	**ft_split(char *str, char *charset);
 char	*ft_strdup(const char *src);
 char	*ft_strjoin(char const *s1, char const *s2);
-
+int     ft_strcmp(const char *s1, const char *s2);
+size_t	ft_strlen(const char *str);
+void    ft_put_move(char *move);
 
 
 void free_split(char **split);
@@ -48,8 +50,11 @@ void error_exit(t_stack **stack_a, char **split_args);
 t_stack *parse_arguments(int ac, char **av);
 void assign_index(t_stack **stack);
 t_stack *sort(t_stack **stack_a);
+void	sort_three(t_stack **stack_a);
+void	sort_small(t_stack **stack_a, t_stack **stack_b);
 int	find_max_index(t_stack *stack);
 int	find_index_pos(t_stack *stack, int index);
+int is_sorted(t_stack *stack);
 
 /* Moves */
 void	sa(t_stack **stack_a);

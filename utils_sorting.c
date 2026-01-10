@@ -33,3 +33,14 @@ int	find_index_pos(t_stack *stack, int index)
 	return (-1);
 }
 
+int is_sorted(t_stack *stack)
+{
+	while (stack && stack->next)
+	{
+		if (stack->value > stack->next->value)
+			return (0);
+		stack = stack->next;
+	}
+	return (1);
+}
+

@@ -22,21 +22,18 @@ static void	reverse_rotate(t_stack **stack)
 void	rra(t_stack **stack_a)
 {
 	reverse_rotate(stack_a);
-	if (write(1, "rra\n", 4) == -1)
-		(void)0;
+	ft_put_move("rra");
 }
 
 void	rrb(t_stack **stack_b)
 {
 	reverse_rotate(stack_b);
-	if (write(1, "rrb\n", 4) == -1)
-		(void)0;
+	ft_put_move("rrb");
 }
 
 void	rrr(t_stack **stack_a, t_stack **stack_b)
 {
 	reverse_rotate(stack_a);
 	reverse_rotate(stack_b);
-	if (write(1, "rrr\n", 4) == -1)
-		(void)0;
+	ft_put_move("rrr");
 }

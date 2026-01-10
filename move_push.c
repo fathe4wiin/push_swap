@@ -15,13 +15,11 @@ static void	push(t_stack **src, t_stack **dest)
 void	pa(t_stack **stack_a, t_stack **stack_b)
 {
 	push(stack_b, stack_a);
-	if (write(1, "pa\n", 3) == -1)
-		(void)0;
+	ft_put_move("pa");
 }
 
 void	pb(t_stack **stack_a, t_stack **stack_b)
 {
 	push(stack_a, stack_b);
-	if (write(1, "pb\n", 3) == -1)
-		(void)0;
+	ft_put_move("pb");
 }

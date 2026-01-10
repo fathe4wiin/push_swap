@@ -18,21 +18,18 @@ static void	swap(t_stack *stack)
 void	sa(t_stack **stack_a)
 {
 	swap(*stack_a);
-	if (write(1, "sa\n", 3) == -1)
-		(void)0;
+	ft_put_move("sa");
 }
 
 void	sb(t_stack **stack_b)
 {
 	swap(*stack_b);
-	if (write(1, "sb\n", 3) == -1)
-		(void)0;
+	ft_put_move("sb");
 }
 
 void	ss(t_stack **stack_a, t_stack **stack_b)
 {
 	swap(*stack_a);
 	swap(*stack_b);
-	if (write(1, "ss\n", 3) == -1)
-		(void)0;
+	ft_put_move("ss");
 }

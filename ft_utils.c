@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-static size_t	ft_strlen(const char *str)
+size_t	ft_strlen(const char *str)
 {
 	size_t	i;
 
@@ -50,6 +50,16 @@ char	*ft_strdup(const char *src)
 		dest[i] = src[i];
 	dest[i] = '\0';
 	return (dest);
+}
+
+int ft_strcmp(const char *s1, const char *s2)
+{
+    while (*s1 && *s2 && *s1 == *s2)
+    {
+        s1++;
+        s2++;
+    }
+    return ((unsigned char)*s1 - (unsigned char)*s2);
 }
 
 void free_split(char **split)
