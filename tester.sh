@@ -46,6 +46,8 @@ KO_COUNT=0
 CHECKER_MATCH=0
 CHECKER_MISMATCH=0
 CURRENT_TEST=0
+PARSING_PASS=0
+PARSING_TOTAL=18
 
 # Error test results
 ERR_TESTS_TOTAL=10
@@ -69,7 +71,7 @@ trap cleanup EXIT
 
 # Clear screen and draw UI
 draw_ui() {
-    tput cup 0 0  # Move cursor to top-left
+    printf "\033[H"  # Move cursor to top-left
     
     # Calculate progress bar
     if [ $NUM_TESTS -gt 0 ]; then
@@ -150,39 +152,53 @@ draw_ui() {
     MATCH_DISPLAY=$(printf "%-4s" "$CHECKER_MATCH")
     MISMATCH_DISPLAY=$(printf "%-4s" "$CHECKER_MISMATCH")
     ERR_DISPLAY=$(printf "%-2s" "$ERR_TESTS_PASS")
+    PARSING_DISPLAY=$(printf "%-2s" "$PARSING_PASS")
+    TOTAL_PARSING_DISPLAY=$(printf "%-2s" "$PARSING_TOTAL")
 
     echo -e "${CYAN}╔══════════════════════════════════════════════════════════════════╗${NC}"
     echo -e "${CYAN}║${NC}              ${BOLD}${WHITE}PUSH_SWAP TESTER${NC}                                    ${CYAN}║${NC}"
     echo -e "${CYAN}╠══════════════════════════════════════════════════════════════════╣${NC}"
-    echo -e "${CYAN}║${NC}  ${DIM}Elements:${NC} ${WHITE}$(printf "%-8s" "$NUM_ELEMENTS")${NC}    ${DIM}Tests:${NC} ${WHITE}$(printf "%-8s" "$NUM_TESTS")${NC}                      ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}  ${DIM}Elements:${NC} ${WHITE}$(printf "%-8s" "$NUM_ELEMENTS")${NC}    ${DIM}Tests:${NC} ${WHITE}$(printf "%-8s" "$NUM_TESTS")${NC}                           ${CYAN}║${NC}"
     echo -e "${CYAN}╠══════════════════════════════════════════════════════════════════╣${NC}"
     echo -e "${CYAN}║${NC}                                                                  ${CYAN}║${NC}"
-    echo -e "${CYAN}║${NC}  ${BOLD}${YELLOW}MANDATORY PART${NC}                                                 ${CYAN}║${NC}"
-    echo -e "${CYAN}║${NC}  ──────────────                                                 ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}  ${BOLD}${YELLOW}MANDATORY PART${NC}                                                  ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}  ──────────────                                                  ${CYAN}║${NC}"
     echo -e "${CYAN}║${NC}                                                                  ${CYAN}║${NC}"
-    echo -e "${CYAN}║${NC}  ${DIM}Progress:${NC} [${GREEN}$PROGRESS_BAR${NC}] ${WHITE}$(printf "%3s" "$CURRENT_TEST")${NC}/${WHITE}$(printf "%-3s" "$NUM_TESTS")${NC} ${DIM}($(printf "%3s" "$PROGRESS")%)${NC}     ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}  ${DIM}Progress:${NC} [${GREEN}$PROGRESS_BAR${NC}] ${WHITE}$(printf "%3s" "$CURRENT_TEST")${NC}/${WHITE}$(printf "%-3s" "$NUM_TESTS")${NC} ${DIM}($(printf "%3s" "$PROGRESS")%)${NC}                 ${CYAN}║${NC}"
     echo -e "${CYAN}║${NC}                                                                  ${CYAN}║${NC}"
-    echo -e "${CYAN}║${NC}  ${GREEN}Best:${NC}     ${WHITE}$BEST_DISPLAY${NC}     ${RED}Worst:${NC}  ${WHITE}$WORST_DISPLAY${NC}     ${YELLOW}Avg:${NC} ${WHITE}$AVG_DISPLAY${NC}   ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}  ${GREEN}Best:${NC}     ${WHITE}$BEST_DISPLAY${NC}     ${RED}Worst:${NC}  ${WHITE}$WORST_DISPLAY${NC}     ${YELLOW}Avg:${NC} ${WHITE}$AVG_DISPLAY${NC}             ${CYAN}║${NC}"
     echo -e "${CYAN}║${NC}                                                                  ${CYAN}║${NC}"
-    echo -e "${CYAN}║${NC}  ${DIM}Sorting:${NC}  ${GREEN}OK: $OK_DISPLAY${NC}  ${RED}KO: $KO_DISPLAY${NC}        ${DIM}Grade:${NC} $GRADE_MSG           ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}  ${DIM}Sorting:${NC}  ${GREEN}OK: $OK_DISPLAY${NC}  ${RED}KO: $KO_DISPLAY${NC}        ${DIM}Grade:${NC} $GRADE_MSG              ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}                                                                  ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}  ${DIM}Parsing:${NC}  ${GREEN}$PARSING_DISPLAY${NC}/${WHITE}$TOTAL_PARSING_DISPLAY${NC}                                                ${CYAN}║${NC}"
     echo -e "${CYAN}║${NC}                                                                  ${CYAN}║${NC}"
     echo -e "${CYAN}╠══════════════════════════════════════════════════════════════════╣${NC}"
     echo -e "${CYAN}║${NC}                                                                  ${CYAN}║${NC}"
-    echo -e "${CYAN}║${NC}  ${BOLD}${YELLOW}BONUS PART${NC}                                                     ${CYAN}║${NC}"
-    echo -e "${CYAN}║${NC}  ──────────                                                     ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}  ${BOLD}${YELLOW}BONUS PART${NC}                                                      ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}  ──────────                                                      ${CYAN}║${NC}"
     echo -e "${CYAN}║${NC}                                                                  ${CYAN}║${NC}"
     if [ -n "$CHECKER_BONUS" ]; then
-    echo -e "${CYAN}║${NC}  ${DIM}Checker:${NC}  ${GREEN}Found${NC}        ${DIM}Match:${NC} ${GREEN}$MATCH_DISPLAY${NC}  ${DIM}Mismatch:${NC} ${RED}$MISMATCH_DISPLAY${NC}        ${CYAN}║${NC}"
-    echo -e "${CYAN}║${NC}                                                                  ${CYAN}║${NC}"
-    echo -e "${CYAN}║${NC}  ${DIM}Error Tests:${NC} ${GREEN}$ERR_DISPLAY${NC}/${WHITE}$ERR_TESTS_TOTAL${NC}                                          ${CYAN}║${NC}"
+        echo -e "${CYAN}║${NC}  ${DIM}Checker:${NC}  ${GREEN}Found${NC}        ${DIM}Match:${NC} ${GREEN}$MATCH_DISPLAY${NC}  ${DIM}Mismatch:${NC} ${RED}$MISMATCH_DISPLAY${NC}              ${CYAN}║${NC}"
+        echo -e "${CYAN}║${NC}                                                                  ${CYAN}║${NC}"
+        echo -e "${CYAN}║${NC}  ${DIM}Error Tests:${NC} ${GREEN}$ERR_DISPLAY${NC}/${WHITE}$ERR_TESTS_TOTAL${NC}                                              ${CYAN}║${NC}"
     else
-    echo -e "${CYAN}║${NC}  ${DIM}Checker:${NC}  ${RED}Not Found${NC}                                            ${CYAN}║${NC}"
-    echo -e "${CYAN}║${NC}  ${DIM}Run 'make bonus' to build checker${NC}                             ${CYAN}║${NC}"
-    echo -e "${CYAN}║${NC}                                                                  ${CYAN}║${NC}"
+        echo -e "${CYAN}║${NC}  ${DIM}Checker:${NC}  ${RED}Not Found${NC}                                             ${CYAN}║${NC}"
+        echo -e "${CYAN}║${NC}  ${DIM}Run 'make bonus' to build checker${NC}                               ${CYAN}║${NC}"
+        echo -e "${CYAN}║${NC}                                                                  ${CYAN}║${NC}"
     fi
     echo -e "${CYAN}║${NC}                                                                  ${CYAN}║${NC}"
     echo -e "${CYAN}╠══════════════════════════════════════════════════════════════════╣${NC}"
-    echo -e "${CYAN}║${NC}  ${DIM}Status:${NC} $(printf "%-55s" "$STATUS_MSG") ${CYAN}║${NC}"
+    
+    # Calculate visible length of status message for correct padding
+    CLEAN_STATUS=$(echo -e "$STATUS_MSG" | sed 's/\x1b\[[0-9;]*m//g')
+    STATUS_LEN=${#CLEAN_STATUS}
+    
+    # Total space for message is 56 chars (66 inner width - 10 chars for "  Status: ")
+    PAD_LEN=$((56 - STATUS_LEN))
+    if [ $PAD_LEN -lt 0 ]; then PAD_LEN=0; fi
+    PADDING=$(printf "%${PAD_LEN}s")
+    
+    echo -e "${CYAN}║${NC}  ${DIM}Status:${NC} ${STATUS_MSG}${PADDING}${CYAN}║${NC}"
     echo -e "${CYAN}╚══════════════════════════════════════════════════════════════════╝${NC}"
 }
 
@@ -261,9 +277,59 @@ for ((i=1; i<=NUM_TESTS; i++)); do
     draw_ui
 done
 
+# Run Parsing Tests
+STATUS_MSG="${BLUE}Running parsing tests...${NC}"
+draw_ui
+
+# helper for parsing check valid
+check_valid() {
+    ERR=$(./push_swap "$@" 2>&1 >/dev/null)
+    if [ -z "$ERR" ]; then
+        PARSING_PASS=$((PARSING_PASS + 1))
+    else
+        echo "Parsing Fail (Valid expected): $@" >> "$FAIL_LOG"
+        echo "Output: $ERR" >> "$FAIL_LOG"
+    fi
+    draw_ui
+}
+
+# helper for parsing check error
+check_error() {
+    ERR=$(./push_swap "$@" 2>&1 >/dev/null)
+    if [[ "$ERR" == *"Error"* ]]; then
+        PARSING_PASS=$((PARSING_PASS + 1))
+    else
+        echo "Parsing Fail (Error expected): $@" >> "$FAIL_LOG"
+        echo "Output: $ERR" >> "$FAIL_LOG"
+    fi
+    draw_ui
+}
+
+# Valid cases
+check_valid 1 3 5 +9 20 -4 50 60 04 08
+check_valid "3 4 6 8 9 74 -56 +495"
+check_valid "95 99 -9 10 9"
+check_valid 2147483647 2 4 7
+check_valid 99 -2147483648 23 545
+check_valid "2147483647 843 56544 24394"
+check_valid "1 2 4 3" 76 90 "348 05"
+
+# Error cases
+check_error 1 3 dog 35 80 -3
+check_error a
+check_error 1 2 3 5 67b778 947
+check_error " 12 4 6 8 54fhd 4354"
+check_error 1 -- 45 32
+check_error 1 3 58 9 3
+check_error 3 03
+check_error " 49 128     50 38   49"
+check_error 54867543867438 3
+check_error -2147483647765 4 5
+check_error "214748364748385 28 47 29"
+
 # Run error handling tests for bonus
 if [ -n "$CHECKER_BONUS" ]; then
-    STATUS_MSG="${BLUE}Testing error handling...${NC}"
+    STATUS_MSG="${BLUE}Testing checker error handling...${NC}"
     ERR_TESTS_PASS=0
     draw_ui
     
@@ -329,10 +395,12 @@ if [ -n "$CHECKER_BONUS" ]; then
 fi
 
 # Final status
-if [ $KO_COUNT -eq 0 ] && [ $CHECKER_MISMATCH -eq 0 ] && [ $ERR_TESTS_PASS -eq $ERR_TESTS_TOTAL ]; then
+if [ $KO_COUNT -eq 0 ] && [ $CHECKER_MISMATCH -eq 0 ] && [ $ERR_TESTS_PASS -eq $ERR_TESTS_TOTAL ] && [ $PARSING_PASS -eq $PARSING_TOTAL ]; then
     STATUS_MSG="${GREEN}All tests passed! ✓${NC}"
 elif [ $KO_COUNT -gt 0 ]; then
     STATUS_MSG="${RED}Some sorting tests failed!${NC}"
+elif [ $PARSING_PASS -lt $PARSING_TOTAL ]; then
+    STATUS_MSG="${RED}Parsing tests failed!${NC}"
 elif [ $CHECKER_MISMATCH -gt 0 ]; then
     STATUS_MSG="${RED}Checker mismatch detected!${NC}"
 else
@@ -341,6 +409,7 @@ fi
 
 draw_ui
 
-# Move cursor below the UI and wait
-tput cup 30 0
-read -p "Press Enter to exit..."
+# Move cursor below the UI and exit
+tput cup 29 0
+echo ""
+

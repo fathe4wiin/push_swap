@@ -57,12 +57,20 @@ The checker outputs:
 - `KO` if the stack is not sorted
 - `Error` if invalid arguments or instructions are provided
 
-### Tester
-A comprehensive test script is included:
+### Testing & Visualization
+
+A comprehensive `tester.sh` script is included to validate all aspects of the project:
+
+- **Sorting Logic**: Validates sorting accuracy and move counts against thresholds.
+- **Bonus Verification**: Compares your `checker` outputs with the reference `checker_linux`.
+- **Parsing Tests**: Checks robust error handling for invalid inputs (non-numeric, duplicates, overflow/underflow, empty strings, etc.).
+- **Interactive UI**: Displays a visual progress bar, live statistics, and a summary grade.
+
+Run the tester:
 ```bash
 ./tester.sh <num_elements> <num_tests>
-./tester.sh 100 50   # Run 50 tests with 100 elements each
-./tester.sh 500 100  # Run 100 tests with 500 elements each
+# Example: Run 50 tests with 100 random numbers each
+./tester.sh 100 50
 ```
 
 ## Performance
@@ -127,6 +135,8 @@ A buffering system captures generated instructions before printing. This allows 
 └── README.md
 ```
 
-## Resources
+## Credits
 
-*   [Push Swap — A journey to find the optimal sorting algorithm](https://medium.com/@msouiyeh/not-your-typical-42network-push-swap-cc583f863a90) by msouiyeh.
+- **Algorithm Resources**: [Push Swap — A journey to find the optimal sorting algorithm](https://medium.com/@msouiyeh/not-your-typical-42network-push-swap-cc583f863a90) by msouiyeh.
+- **Visualizer**: [o-reo/push_swap_visualizer](https://github.com/o-reo/push_swap_visualizer) - An excellent tool for visualizing the sorting algorithm in action.
+- **Tester & Improvements**: Special thanks to **GitHub Copilot** for improved tester script design, parsing validation implementation, and minor project tweaks.
