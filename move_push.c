@@ -12,14 +12,16 @@ static void	push(t_stack **src, t_stack **dest)
 	*dest = tmp;
 }
 
-void	pa(t_stack **stack_a, t_stack **stack_b)
+void	pa(t_stack **stack_a, t_stack **stack_b, int print)
 {
 	push(stack_b, stack_a);
-	ft_put_move("pa");
+	if (print)
+		ft_put_move("pa");
 }
 
-void	pb(t_stack **stack_a, t_stack **stack_b)
+void	pb(t_stack **stack_a, t_stack **stack_b, int print)
 {
 	push(stack_a, stack_b);
-	ft_put_move("pb");
+	if (print)
+		ft_put_move("pb");
 }

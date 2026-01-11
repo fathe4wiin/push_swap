@@ -15,21 +15,24 @@ static void	swap(t_stack *stack)
 	stack->next->index = tmp_idx;
 }
 
-void	sa(t_stack **stack_a)
+void	sa(t_stack **stack_a, int print)
 {
 	swap(*stack_a);
-	ft_put_move("sa");
+	if (print)
+		ft_put_move("sa");
 }
 
-void	sb(t_stack **stack_b)
+void	sb(t_stack **stack_b, int print)
 {
 	swap(*stack_b);
-	ft_put_move("sb");
+	if (print)
+		ft_put_move("sb");
 }
 
-void	ss(t_stack **stack_a, t_stack **stack_b)
+void	ss(t_stack **stack_a, t_stack **stack_b, int print)
 {
 	swap(*stack_a);
 	swap(*stack_b);
-	ft_put_move("ss");
+	if (print)
+		ft_put_move("ss");
 }

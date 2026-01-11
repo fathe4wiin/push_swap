@@ -44,3 +44,19 @@ int is_sorted(t_stack *stack)
 	return (1);
 }
 
+int	find_min_index(t_stack *stack)
+{
+	int		min;
+	t_stack	*tmp;
+
+	min = 2147483647;
+	tmp = stack;
+	while (tmp)
+	{
+		if (tmp->index < min)
+			min = tmp->index;
+		tmp = tmp->next;
+	}
+	return (min);
+}
+

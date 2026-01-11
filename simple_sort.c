@@ -20,11 +20,11 @@ void	sort_three(t_stack **stack_a)
 
 	highest = find_highest_index(*stack_a);
 	if ((*stack_a)->index == highest)
-		ra(stack_a);
+		ra(stack_a, 1);
 	else if ((*stack_a)->next->index == highest)
-		rra(stack_a);
+		rra(stack_a, 1);
 	if ((*stack_a)->index > (*stack_a)->next->index)
-		sa(stack_a);
+		sa(stack_a, 1);
 }
 
 static int	find_min_index_pos(t_stack *stack)
@@ -60,14 +60,14 @@ void	sort_small(t_stack **stack_a, t_stack **stack_b)
 		pos = find_min_index_pos(*stack_a);
 		if (pos <= size / 2)
 			while (pos-- > 0)
-				ra(stack_a);
+				ra(stack_a, 1);
 		else
 			while (pos++ < size)
-				rra(stack_a);
-		pb(stack_a, stack_b);
+				rra(stack_a, 1);
+		pb(stack_a, stack_b, 1);
 		size--;
 	}
 	sort_three(stack_a);
 	while (*stack_b)
-		pa(stack_a, stack_b);
+		pa(stack_a, stack_b, 1);
 }

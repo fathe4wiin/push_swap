@@ -19,21 +19,24 @@ static void	reverse_rotate(t_stack **stack)
 	*stack = tail;
 }
 
-void	rra(t_stack **stack_a)
+void	rra(t_stack **stack_a, int print)
 {
 	reverse_rotate(stack_a);
-	ft_put_move("rra");
+	if (print)
+		ft_put_move("rra");
 }
 
-void	rrb(t_stack **stack_b)
+void	rrb(t_stack **stack_b, int print)
 {
 	reverse_rotate(stack_b);
-	ft_put_move("rrb");
+	if (print)
+		ft_put_move("rrb");
 }
 
-void	rrr(t_stack **stack_a, t_stack **stack_b)
+void	rrr(t_stack **stack_a, t_stack **stack_b, int print)
 {
 	reverse_rotate(stack_a);
 	reverse_rotate(stack_b);
-	ft_put_move("rrr");
+	if (print)
+		ft_put_move("rrr");
 }

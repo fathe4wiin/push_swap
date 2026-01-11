@@ -16,21 +16,24 @@ static void	rotate(t_stack **stack)
 	tmp->next = NULL;
 }
 
-void	ra(t_stack **stack_a)
+void	ra(t_stack **stack_a, int print)
 {
 	rotate(stack_a);
-	ft_put_move("ra");
+	if (print)
+		ft_put_move("ra");
 }
 
-void	rb(t_stack **stack_b)
+void	rb(t_stack **stack_b, int print)
 {
 	rotate(stack_b);
-	ft_put_move("rb");
+	if (print)
+		ft_put_move("rb");
 }
 
-void	rr(t_stack **stack_a, t_stack **stack_b)
+void	rr(t_stack **stack_a, t_stack **stack_b, int print)
 {
 	rotate(stack_a);
 	rotate(stack_b);
-	ft_put_move("rr");
+	if (print)
+		ft_put_move("rr");
 }
