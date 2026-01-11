@@ -1,30 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lists_2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bfathi <bfathi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/12 00:18:52 by bfathi            #+#    #+#             */
-/*   Updated: 2026/01/12 00:18:53 by bfathi           ###   ########.fr       */
+/*   Created: 2026/01/12 00:30:39 by bfathi            #+#    #+#             */
+/*   Updated: 2026/01/12 00:53:57 by bfathi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../push_swap.h"
 
-int	main(int ac, char **av)
+int	stack_size(t_stack *stack)
 {
-	t_stack	*stack_a;
+	int	count;
 
-	if (ac < 2)
-		return (0);
-	stack_a = parse_arguments(ac, av);
-	if (!stack_a)
-		return (0);
-	assign_index(&stack_a);
-	if (!is_sorted(stack_a) && stack_size(stack_a) > 1)
-		stack_a = sort(&stack_a);
-	stack_clear(&stack_a);
-	ft_put_move(NULL);
-	return (0);
+	count = 0;
+	while (stack)
+	{
+		stack = stack->next;
+		count++;
+	}
+	return (count);
+}
+
+t_stack	*stack_last(t_stack *stack)
+{
+	if (!stack)
+		return (NULL);
+	while (stack->next)
+		stack = stack->next;
+	return (stack);
 }

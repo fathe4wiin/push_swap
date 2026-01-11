@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bfathi <bfathi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/12 00:18:52 by bfathi            #+#    #+#             */
-/*   Updated: 2026/01/12 00:18:53 by bfathi           ###   ########.fr       */
+/*   Created: 2026/01/12 00:18:39 by bfathi            #+#    #+#             */
+/*   Updated: 2026/01/12 00:53:50 by bfathi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../push_swap.h"
 
-int	main(int ac, char **av)
+long	ft_atol(char *str)
 {
-	t_stack	*stack_a;
+	long	res;
+	int		i;
+	int		sign;
 
-	if (ac < 2)
-		return (0);
-	stack_a = parse_arguments(ac, av);
-	if (!stack_a)
-		return (0);
-	assign_index(&stack_a);
-	if (!is_sorted(stack_a) && stack_size(stack_a) > 1)
-		stack_a = sort(&stack_a);
-	stack_clear(&stack_a);
-	ft_put_move(NULL);
-	return (0);
+	i = 0;
+	sign = 1;
+	res = 0;
+	if (str[i] && (str[i] == '+' || str[i] == '-'))
+	{
+		if (str[i] == '-')
+			sign = -1;
+		i++;
+	}
+	while (str[i] && (str[i] >= '0' && str[i] <= '9'))
+		res = res * 10 + (str[i++] - '0');
+	return (res * sign);
 }

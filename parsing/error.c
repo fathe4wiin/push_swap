@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bfathi <bfathi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/12 00:18:52 by bfathi            #+#    #+#             */
-/*   Updated: 2026/01/12 00:18:53 by bfathi           ###   ########.fr       */
+/*   Created: 2026/01/12 00:18:37 by bfathi            #+#    #+#             */
+/*   Updated: 2026/01/12 00:53:23 by bfathi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../push_swap.h"
 
-int	main(int ac, char **av)
+void	error_exit(t_stack **stack_a, char **split_args)
 {
-	t_stack	*stack_a;
-
-	if (ac < 2)
-		return (0);
-	stack_a = parse_arguments(ac, av);
-	if (!stack_a)
-		return (0);
-	assign_index(&stack_a);
-	if (!is_sorted(stack_a) && stack_size(stack_a) > 1)
-		stack_a = sort(&stack_a);
-	stack_clear(&stack_a);
-	ft_put_move(NULL);
-	return (0);
+	if (stack_a && *stack_a)
+		stack_clear(stack_a);
+	if (split_args)
+		free_split(split_args);
+	if (write(2, "Error\n", 6) == -1)
+		(void)0;
+	exit(1);
 }

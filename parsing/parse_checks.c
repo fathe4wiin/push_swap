@@ -1,30 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parse_checks.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bfathi <bfathi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/12 00:18:52 by bfathi            #+#    #+#             */
-/*   Updated: 2026/01/12 00:18:53 by bfathi           ###   ########.fr       */
+/*   Created: 2026/01/12 00:19:06 by bfathi            #+#    #+#             */
+/*   Updated: 2026/01/12 00:53:25 by bfathi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../push_swap.h"
 
-int	main(int ac, char **av)
+int	check_if_number(char *str)
 {
-	t_stack	*stack_a;
+	int	i;
 
-	if (ac < 2)
-		return (0);
-	stack_a = parse_arguments(ac, av);
-	if (!stack_a)
-		return (0);
-	assign_index(&stack_a);
-	if (!is_sorted(stack_a) && stack_size(stack_a) > 1)
-		stack_a = sort(&stack_a);
-	stack_clear(&stack_a);
-	ft_put_move(NULL);
+	i = 0;
+	if (str[0] == '-' || str[0] == '+')
+		i++;
+	if (!str[i])
+		return (1);
+	while (str[i])
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	is_duplicate(t_stack *stack_a, long num)
+{
+	while (stack_a)
+	{
+		if (stack_a->value == num)
+			return (1);
+		stack_a = stack_a->next;
+	}
 	return (0);
 }

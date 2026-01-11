@@ -1,5 +1,3 @@
-#include "push_swap.h"
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -7,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bfathi <bfathi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/30 19:21:19 by bfathi            #+#    #+#             */
-/*   Updated: 2026/01/03 12:00:00 by copilot          ###   ########.fr       */
+/*   Created: 2026/01/12 00:18:41 by bfathi            #+#    #+#             */
+/*   Updated: 2026/01/12 00:54:00 by bfathi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "../push_swap.h"
 
 int	ft_issep(char c, char *sep)
 {
@@ -26,27 +24,6 @@ int	ft_issep(char c, char *sep)
 		i++;
 	}
 	return (0);
-}
-
-int	word_count(char *str, char *sep)
-{
-	int	i;
-	int	words;
-
-	i = 0;
-	words = 0;
-	while (str[i])
-	{
-		while (str[i] && ft_issep(str[i], sep))
-			i++;
-		if (str[i] && !ft_issep(str[i], sep))
-		{
-			words++;
-			while (str[i] && !ft_issep(str[i], sep))
-				i++;
-		}
-	}
-	return (words);
 }
 
 void	skip_sep(char *str, char *charset, int *i, int *wordlen)
@@ -81,9 +58,6 @@ char	*extract_words(char *str, int *i, char *charset, int wordlen)
 	return (res);
 }
 
-/* 
-** Helper function to free the array if allocation fails mid-way
-*/
 static char	**free_all(char **res, int j)
 {
 	int	i;
@@ -117,7 +91,7 @@ char	**ft_split(char *str, char *charset)
 		{
 			res[j] = extract_words(str, &i, charset, wordlen);
 			if (!res[j])
-				return (free_all(res, j)); // If malloc fails, clean up
+				return (free_all(res, j));
 			j++;
 		}
 	}

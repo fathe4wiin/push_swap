@@ -1,8 +1,20 @@
-#include "push_swap.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   simple_sort.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bfathi <bfathi@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/12 00:19:15 by bfathi            #+#    #+#             */
+/*   Updated: 2026/01/12 00:53:35 by bfathi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../push_swap.h"
 
 static int	find_highest_index(t_stack *stack)
 {
-	int		index;
+	int	index;
 
 	index = stack->index;
 	while (stack)
@@ -16,7 +28,7 @@ static int	find_highest_index(t_stack *stack)
 
 void	sort_three(t_stack **stack_a)
 {
-	int		highest;
+	int	highest;
 
 	highest = find_highest_index(*stack_a);
 	if ((*stack_a)->index == highest)
@@ -29,9 +41,9 @@ void	sort_three(t_stack **stack_a)
 
 static int	find_min_index_pos(t_stack *stack)
 {
-	int		min;
-	int		pos;
-	int		i;
+	int	min;
+	int	pos;
+	int	i;
 
 	min = 2147483647;
 	pos = 0;
