@@ -31,7 +31,7 @@ SRC			= $(COMMON_SRC) main.c
 
 SRC_BONUS	= $(COMMON_SRC) \
 			  __main_bonus.c \
-			  bonus/__checker_utils.c \
+			  bonus/utils_bonus.c \
 			  gnl/get_next_line.c \
 			  gnl/get_next_line_utils.c
 
