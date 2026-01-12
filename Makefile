@@ -1,7 +1,8 @@
 NAME		= push_swap
+NAME_BONUS	= checker
 
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -Wno-unused-result -I.
+CFLAGS		= -Wall -Wextra -Werror -I.
 
 SRC_MOVES	= moves/move_push.c \
 			  moves/move_rev_rotate.c \
@@ -37,7 +38,6 @@ SRC_BONUS	= $(COMMON_SRC) \
 
 OBJ			= $(SRC:.c=.o)
 OBJ_BONUS	= $(SRC_BONUS:.c=.o)
-NAME_BONUS	= checker
 
 all: $(NAME)
 
