@@ -111,25 +111,35 @@ A buffering system captures generated instructions before printing. This allows 
 ├── Makefile
 ├── push_swap.h          # Main header file
 ├── main.c               # Entry point
-├── parsing.c            # Argument parsing
-├── parse_checks.c       # Input validation
-├── indexing.c           # Value to index conversion
-├── sorting.c            # Main sorting algorithm
-├── simple_sort.c        # Sort for 3-5 elements
-├── utils_sorting.c      # Sorting helper functions
-├── move_swap.c          # sa, sb, ss operations
-├── move_push.c          # pa, pb operations
-├── move_rotate.c        # ra, rb, rr operations
-├── move_rev_rotate.c    # rra, rrb, rrr operations
-├── lists.c              # Linked list utilities
-├── error.c              # Error handling
-├── ft_*.c               # Utility functions
-├── __bonus_checker.c    # Checker main (bonus)
-├── __checker_utils.c    # Checker helpers (bonus)
+├── __main_bonus.c       # Checker entry point (bonus)
+├── moves/               # Operation instructions
+│   ├── move_push.c
+│   ├── move_rev_rotate.c
+│   ├── move_rotate.c
+│   └── move_swap.c
+├── parsing/             # Input handling
+│   ├── parsing.c
+│   ├── parse_checks.c
+│   ├── error.c
+│   └── print_opt.c
+├── sorting/             # Sorting algorithms
+│   ├── sorting.c
+│   ├── simple_sort.c
+│   ├── utils_sorting_1.c
+│   └── utils_sorting_2.c
+├── utils/               # General utilities & List management
+│   ├── ft_atol.c
+│   ├── ft_split.c
+│   ├── ft_lists_1.c
+│   ├── ft_lists_2.c
+│   ├── ft_utils_1.c
+│   └── ft_utils_2.c
 ├── gnl/                 # Get Next Line library
 │   ├── get_next_line.c
 │   ├── get_next_line_utils.c
 │   └── get_next_line.h
+├── bonus/               # Bonus specific files
+│   └── __checker_utils.c
 ├── tester.sh            # Testing script
 ├── checker_linux        # Reference checker
 └── README.md
