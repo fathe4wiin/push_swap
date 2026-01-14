@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bfathi <bfathi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fathe4wiin <fathe4wiin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 04:23:38 by bfathi            #+#    #+#             */
-/*   Updated: 2026/01/12 00:25:04 by bfathi           ###   ########.fr       */
+/*   Updated: 2026/01/14 21:57:06 by fathe4wiin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,21 +82,21 @@ char	*get_next_line(int fd)
 	static char	*buffer;
 	char		*tmp;
 	char		*line;
-	int			bytes;
 
+	if (fd < 0)
+		return (free_and_null(buffer, NULL), buffer = NULL, NULL);
 	if ((size_t)BUFFER_SIZE <= 0 || (size_t)BUFFER_SIZE >= SIZE_MAX)
-		return (0);
-	bytes = 0;
+		return (NULL);
 	tmp = malloc((size_t)BUFFER_SIZE + 1);
-	line = NULL;
-	if (fd < 0 || BUFFER_SIZE <= 0 || !tmp)
-		return (free_and_null(NULL, tmp));
+	if (!tmp)
+		return (free_and_null(buffer, NULL), buffer = NULL, NULL);
 	if (!buffer)
 		buffer = gnl_strdup("");
-	if (main_loop(bytes, fd, tmp, &buffer))
+	if (main_loop(0, fd, tmp, &buffer))
 		return (NULL);
 	if (!buffer || *buffer == '\0')
 		return (buffer = free_and_null(buffer, tmp), NULL);
+	line = NULL;
 	cat_buff(buffer, &line);
 	remove_line(&buffer);
 	return (free(tmp), line);
