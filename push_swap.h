@@ -6,7 +6,7 @@
 /*   By: bfathi <bfathi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 00:19:13 by bfathi            #+#    #+#             */
-/*   Updated: 2026/01/12 01:21:49 by bfathi           ###   ########.fr       */
+/*   Updated: 2026/01/14 15:59:53 by bfathi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void				stack_clear(t_stack **stack);
 /*
 ** Lib Utils (utils/)
 */
-long				ft_atol(char *str, char **split_args);
+long				ft_atol(char *str);
 char				**ft_split(char *str, char *charset);
 char				*ft_strdup(const char *src);
 char				*ft_strjoin(char const *s1, char const *s2);

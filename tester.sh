@@ -61,6 +61,10 @@ CURRENT_TEST=0
 PARSING_PASS=0
 PARSING_TOTAL=18
 
+# Leaks test results
+LEAKS_TOTAL=14
+LEAKS_PASS=0
+
 # Error test results
 ERR_TESTS_TOTAL=10
 ERR_TESTS_PASS=0
@@ -166,6 +170,7 @@ draw_ui() {
     ERR_DISPLAY=$(printf "%-2s" "$ERR_TESTS_PASS")
     PARSING_DISPLAY=$(printf "%-2s" "$PARSING_PASS")
     TOTAL_PARSING_DISPLAY=$(printf "%-2s" "$PARSING_TOTAL")
+    LEAKS_DISPLAY=$(printf "%-2s" "$LEAKS_PASS")
 
     echo -e "${CYAN}╔══════════════════════════════════════════════════════════════════╗${NC}"
     echo -e "${CYAN}║${NC}              ${BOLD}${WHITE}PUSH_SWAP TESTER${NC}                                    ${CYAN}║${NC}"
@@ -183,6 +188,8 @@ draw_ui() {
     echo -e "${CYAN}║${NC}  ${DIM}Sorting:${NC}  ${GREEN}OK: $OK_DISPLAY${NC}  ${RED}KO: $KO_DISPLAY${NC}        ${DIM}Grade:${NC} $GRADE_MSG              ${CYAN}║${NC}"
     echo -e "${CYAN}║${NC}                                                                  ${CYAN}║${NC}"
     echo -e "${CYAN}║${NC}  ${DIM}Parsing:${NC}  ${GREEN}$PARSING_DISPLAY${NC}/${WHITE}$TOTAL_PARSING_DISPLAY${NC}                                                ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}                                                                  ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}  ${DIM}Leaks:${NC}    ${GREEN}$LEAKS_DISPLAY${NC}/${WHITE}$LEAKS_TOTAL${NC}                                                ${CYAN}║${NC}"
     echo -e "${CYAN}║${NC}                                                                  ${CYAN}║${NC}"
     echo -e "${CYAN}╠══════════════════════════════════════════════════════════════════╣${NC}"
     echo -e "${CYAN}║${NC}                                                                  ${CYAN}║${NC}"
@@ -397,8 +404,6 @@ if [ -n "$CHECKER_BONUS" ]; then
     LINUX_OK=$(printf "sa\n" | ./checker_linux 2 1 3 2>&1)
     BONUS_OK=$(printf "sa\n" | $CHECKER_BONUS 2 1 3 2>&1)
     [ "$LINUX_OK" == "$BONUS_OK" ] && ERR_TESTS_PASS=$((ERR_TESTS_PASS + 1))
-    draw_ui
-    
     # Test: Valid operations (unsorted)
     LINUX_OK=$(printf "sa\n" | ./checker_linux 1 2 3 2>&1)
     BONUS_OK=$(printf "sa\n" | $CHECKER_BONUS 1 2 3 2>&1)
@@ -406,13 +411,68 @@ if [ -n "$CHECKER_BONUS" ]; then
     draw_ui
 fi
 
+# Run Leaks Tests
+if command -v valgrind &> /dev/null; then
+    STATUS_MSG="${BLUE}Running memory leak tests...${NC}"
+    draw_ui
+    
+    run_leak_test() {
+        valgrind --leak-check=full --show-leak-kinds=all --error-exitcode=42 ./push_swap $1 > /dev/null 2>&1
+        if [ $? -ne 42 ]; then
+            LEAKS_PASS=$((LEAKS_PASS + 1))
+        else
+            echo "Leak detected with args: '$1'" >> "$FAIL_LOG"
+        fi
+        draw_ui
+    }
+
+    # 1. Empty string
+    run_leak_test ""
+    
+    # 2. Spaces
+    run_leak_test "   "
+    
+    # 3. Non-numeric
+    run_leak_test "a b c"
+    
+    # 4. Duplicate
+    run_leak_test "1 2 3 1"
+    
+    # 5. Overflow
+    run_leak_test "2147483648"
+    
+    # 6. Underflow
+    run_leak_test "-2147483649"
+    
+    # 7. Already sorted
+    run_leak_test "1 2 3"
+    
+    # 8. Single number
+    run_leak_test "42"
+    
+    # 9. Simple Swap
+    run_leak_test "2 1"
+    
+    # 10-14. Random Valid Tests
+    for ((i=1; i<=5; i++)); do
+        ARG=$(generate_numbers)
+        run_leak_test "$ARG"
+    done
+else
+    STATUS_MSG="${YELLOW}Valgrind not found, skipping leaks${NC}"
+    draw_ui
+    sleep 1
+fi
+
 # Final status
-if [ $KO_COUNT -eq 0 ] && [ $CHECKER_MISMATCH -eq 0 ] && [ $ERR_TESTS_PASS -eq $ERR_TESTS_TOTAL ] && [ $PARSING_PASS -eq $PARSING_TOTAL ]; then
+if [ $KO_COUNT -eq 0 ] && [ $CHECKER_MISMATCH -eq 0 ] && [ $ERR_TESTS_PASS -eq $ERR_TESTS_TOTAL ] && [ $PARSING_PASS -eq $PARSING_TOTAL ] && [ $LEAKS_PASS -eq $LEAKS_TOTAL ]; then
     STATUS_MSG="${GREEN}All tests passed! ✓${NC}"
 elif [ $KO_COUNT -gt 0 ]; then
     STATUS_MSG="${RED}Some sorting tests failed!${NC}"
 elif [ $PARSING_PASS -lt $PARSING_TOTAL ]; then
     STATUS_MSG="${RED}Parsing tests failed!${NC}"
+elif [ $LEAKS_PASS -lt $LEAKS_TOTAL ]; then
+    STATUS_MSG="${RED}Memory leaks detected!${NC}"
 elif [ $CHECKER_MISMATCH -gt 0 ]; then
     STATUS_MSG="${RED}Checker mismatch detected!${NC}"
 else

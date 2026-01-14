@@ -6,7 +6,7 @@
 /*   By: bfathi <bfathi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 00:19:08 by bfathi            #+#    #+#             */
-/*   Updated: 2026/01/12 01:23:37 by bfathi           ###   ########.fr       */
+/*   Updated: 2026/01/14 15:59:54 by bfathi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,10 @@ t_stack	*parse_arguments(int ac, char **av)
 	{
 		if (check_if_number(split_args[i]))
 			error_exit(&stack_a, split_args);
-		if (ft_atol(split_args[i], split_args) > INT_MAX || ft_atol(split_args[i], split_args) < INT_MIN
-			|| is_duplicate(stack_a, ft_atol(split_args[i], split_args)))
+		if (ft_atol(split_args[i]) > INT_MAX || ft_atol(split_args[i]) < INT_MIN
+			|| is_duplicate(stack_a, ft_atol(split_args[i])))
 			error_exit(&stack_a, split_args);
-		stack_add_back(&stack_a, stack_new((int)ft_atol(split_args[i], split_args)));
+		stack_add_back(&stack_a, stack_new((int)ft_atol(split_args[i])));
 	}
 	assign_index(&stack_a);
 	free_split(split_args);

@@ -6,7 +6,7 @@
 /*   By: bfathi <bfathi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 00:18:39 by bfathi            #+#    #+#             */
-/*   Updated: 2026/01/12 01:21:23 by bfathi           ###   ########.fr       */
+/*   Updated: 2026/01/14 15:59:51 by bfathi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <limits.h>
 #include <unistd.h>
 
-long	ft_atol(char *str, char **split_args)
+long	ft_atol(char *str)
 {
 	long	res;
 	int		i;
@@ -32,7 +32,7 @@ long	ft_atol(char *str, char **split_args)
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		if (res > (LONG_MAX - (str[i] - '0')) / 10)
-			error_exit(NULL, split_args);
+			return (LONG_MAX);
 		res = res * 10 + (str[i] - '0');
 		i++;
 	}

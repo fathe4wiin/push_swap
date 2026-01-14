@@ -6,7 +6,7 @@
 /*   By: bfathi <bfathi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 00:19:17 by bfathi            #+#    #+#             */
-/*   Updated: 2026/01/12 00:53:38 by bfathi           ###   ########.fr       */
+/*   Updated: 2026/01/14 15:53:53 by bfathi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,6 @@ t_stack	*sort(t_stack **stack_a)
 		sort_three(stack_a);
 		phase_two(stack_a, &stack_b, vars);
 	}
+	free(vars);
 	return (*stack_a);
 }
