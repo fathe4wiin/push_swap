@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sorting.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bfathi <bfathi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fathe4wiin <fathe4wiin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 00:19:17 by bfathi            #+#    #+#             */
-/*   Updated: 2026/01/14 15:53:53 by bfathi           ###   ########.fr       */
+/*   Updated: 2026/01/14 20:00:12 by fathe4wiin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ t_stack	*sort(t_stack **stack_a)
 		sort_three(stack_a);
 		phase_two(stack_a, &stack_b, vars);
 	}
+	if (stack_b)
+		stack_clear(&stack_b);
 	free(vars);
 	return (*stack_a);
 }
